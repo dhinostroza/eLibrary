@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Citas Bibliográficas</title>
+    <!-- Librería para parsear CSV -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <!-- Enlace al archivo CSS (asegúrate que el nombre sea correcto) -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Buscador de Citas Bibliográficas por Estantería</h1>
+
+    <!-- Formulario de Login (Visible inicialmente) -->
+    <div id="login-container">
+        <h2>Acceso</h2>
+        <div id="login-error" style="color: red; margin-bottom: 10px; min-height: 1.2em;"></div> <!-- Área para errores -->
+        <div>
+            <label for="username">Usuario:</label>
+            <input type="text" id="username" name="username" autocomplete="username">
+        </div>
+        <div style="margin-top: 10px;">
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" autocomplete="current-password">
+        </div>
+        <div style="margin-top: 15px;">
+            <button id="login-button">Ingresar</button>
+        </div>
+         <p style="font-size: 0.8em; color: #888; margin-top: 15px;">
+             <strong>Advertencia:</strong> Este acceso es solo una barrera superficial y no ofrece seguridad real.
+         </p>
+    </div>
+
+    <!-- Contenido Principal (Oculto inicialmente) -->
+    <div id="main-content" style="display: none;">
+
+        <!-- Área de Mensajes/Notificaciones -->
+        <div id="message-area" class="message-area" style="display: none;">
+            <span id="message-text"></span>
+            <button id="close-message-button" title="Cerrar Mensaje">×</button>
+        </div>
+
+        <!-- Selector de Fuente de Datos -->
+        <div id="data-source-selector">
+            <label for="source-type">Fuente de Datos:</label>
+            <select id="source-type">
+                <option value="none" selected>-- Selecciona Fuente --</option>
+                <option value="csv">Archivo CSV Local</option>
+                <option value="sheet">Google Sheet (Online)</option>
+            </select>
+
+            <div id="csv-loader" style="display: none; margin-top: 10px;">
+                <label for="csv-file">Selecciona archivo .csv:</label>
+                <input type="file" id="csv-file" accept=".csv">
+            </div>
+             <div id="sheet-loader" style="display: none; margin-top: 10px;">
+                 <button id="load-sheet-button">Cargar desde Google Sheet</button>
+                 <span id="sheet-status"></span>
+             </div>
+             <div id="loading-status" style="margin-top: 10px; font-style: italic;"></div>
+        </div>
+
+        <!-- Controles de Descarga -->
+        <div id="download-controls">
+            <button id="download-borrows-button">Descargar Préstamos Activos</button>
+            <button id="download-logins-button">Descargar Log de Accesos</button>
+            <span style="font-size: 0.8em; color: #666; margin-left: 10px;">(Genera archivos .csv)</span>
+        </div>
+
+        <!-- Filtros Rápidos -->
+         <div id="filter-controls">
+            <span>Filtros Rápidos:</span>
+            <button class="filter-button active-filter" data-filter="all">Todos</button> <!-- 'Todos' activo por defecto -->
+            <button class="filter-button" data-filter="available">Disponibles</button>
+            <button class="filter-button" data-filter="borrowed">Prestados</button>
+            <button class="filter-button" data-filter="missing">Ausentes</button>
+         </div>
+
+        <!-- Contenedor de Búsqueda -->
+        <div id="search-container" style="margin-top: 20px; display: none;">
+             <label for="search-input" style="display: none;">Término de búsqueda:</label> <!-- Opcional: Label oculto -->
+            <input type="text" id="search-input" placeholder="Buscar por título, autor, serial, estado o prestatario...">
+            <button id="search-button">Buscar</button>
+            <button id="show-all-button">Mostrar Todo</button>
+        </div>
+
+        <!-- Contenedor de Resultados -->
+        <div id="results-container" style="margin-top: 20px;">
+             <!-- Mensaje inicial post-login -->
+             <p>Por favor, selecciona una fuente de datos y cárgala.</p>
+        </div>
+
+    </div> <!-- Fin de main-content -->
+
+    <!-- Modal para Registrar Préstamo -->
+    <dialog id="borrow-modal">
+        <form method="dialog" id="borrow-form">
+            <h3 id="borrow-modal-title">Registrar Préstamo Libro Nº ???</h3>
+            <input type="hidden" id="borrow-serial-number"> <!-- Guardar el serial aquí -->
+            <p>
+                <label for="borrower-name">Nombre Prestatario:</label><br>
+                <input type="text" id="borrower-name" required size="30">
+            </p>
+            <p>
+                <label for="loan-duration">Duración Préstamo:</label><br>
+                <select id="loan-duration" required>
+                    <option value="">-- Selecciona --</option>
+                    <option value="1 Semana">1 Semana</option>
+                    <option value="2 Semanas">2 Semanas</option>
+                    <option value="1 Mes">1 Mes</option>
+                    <option value="3 Meses">3 Meses</option>
+                    <option value="Otro">Otro (especificar)</option>
+                </select>
+                <input type="text" id="loan-duration-other" placeholder="Especificar duración" style="display: none; margin-left: 5px;" size="15">
+            </p>
+             <p>
+                <label for="borrower-id">Cédula/ID (Opcional):</label><br>
+                <input type="text" id="borrower-id" size="30">
+            </p>
+             <p>
+                <label for="borrower-phone">Teléfono (Opcional):</label><br>
+                <input type="tel" id="borrower-phone" size="30">
+            </p>
+            <menu>
+                <button type="submit" id="confirm-borrow-button">Confirmar Préstamo</button>
+                <button type="button" id="cancel-borrow-button">Cancelar</button>
+            </menu>
+        </form>
+    </dialog>
+
+    <!-- Enlace al archivo JavaScript al final -->
+    <script src="script.js"></script>
+</body>
+</html>

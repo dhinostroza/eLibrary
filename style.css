@@ -1,0 +1,128 @@
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Contenedores Principales */
+#data-source-selector,
+#search-container,
+#download-controls,
+#filter-controls {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+/* Inputs y Botones Generales */
+#search-input {
+    padding: 10px;
+    width: calc(100% - 230px); /* Ajustado para 2 botones */
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+button {
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #5c67f2; /* Azul por defecto */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-left: 5px;
+    transition: background-color 0.2s ease;
+    vertical-align: middle;
+}
+button:hover { background-color: #4a54cc; }
+button:disabled { background-color: #cccccc; cursor: not-allowed; }
+
+#load-sheet-button { background-color: #28a745; } /* Verde */
+#load-sheet-button:hover { background-color: #218838; }
+
+select, input[type="file"] {
+     padding: 8px; margin-left: 5px; border: 1px solid #ccc; border-radius: 4px; vertical-align: middle;
+}
+
+/* Estilos Login */
+#login-container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; max-width: 400px; margin-left: auto; margin-right: auto; }
+#login-container h2 { margin-top: 0; text-align: center; color: #5c67f2; }
+#login-container label { display: inline-block; width: 80px; margin-right: 10px; vertical-align: middle;}
+#login-container input[type="text"],
+#login-container input[type="password"] { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: calc(100% - 100px); box-sizing: border-box; vertical-align: middle;}
+#login-container button { display: block; width: 100%; padding: 10px 15px; margin-left: 0; }
+#login-error { min-height: 1.2em; color: red; margin-bottom: 10px;}
+
+/* Estilos Área de Mensajes */
+.message-area { padding: 10px 15px; margin-bottom: 15px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+.message-area.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.message-area.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+.message-area.warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+.message-area.info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+#close-message-button { background: none; border: none; font-size: 1.3em; cursor: pointer; color: inherit; padding: 0 5px; margin-left: 15px; font-weight: bold; line-height: 1; }
+
+/* Estilos Controles Descarga */
+#download-controls button { margin-right: 10px; }
+#download-controls button#download-borrows-button { background-color: #007bff; } /* Azul */
+#download-controls button#download-borrows-button:hover { background-color: #0056b3; }
+#download-controls button#download-logins-button { background-color: #6c757d; } /* Gris */
+#download-controls button#download-logins-button:hover { background-color: #5a6268; }
+
+/* Estilos Filtros Rápidos */
+#filter-controls span { margin-right: 10px; font-weight: bold; }
+#filter-controls button { background-color: #e9ecef; color: #495057; border: 1px solid #ced4da; margin-left: 3px; padding: 5px 10px; font-size: 0.9em;}
+#filter-controls button:hover { background-color: #dee2e6; }
+#filter-controls button.active-filter { background-color: #007bff; color: white; border-color: #007bff; }
+
+/* Estilos Resultados */
+.result-item { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 5px; transition: box-shadow 0.2s ease; }
+.result-item:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.result-item.present { background-color: #e8f5e9; border-left: 5px solid #4CAF50; } /* Verde claro */
+.result-item.missing { background-color: #ffebee; border-left: 5px solid #f44336; color: #555; } /* Rojo claro */
+.result-item.borrowed { background-color: #fff3e0; border-left: 5px solid #ff9800; opacity: 0.9; } /* Naranja claro */
+.result-item .serial-number { font-weight: bold; font-size: 1.2em; margin-bottom: 10px; color: #333; display: flex; justify-content: space-between; align-items: center;}
+.result-item h3 { margin-top: 0; margin-bottom: 5px; font-size: 1.1em; color: #5c67f2; }
+.result-item p { margin: 5px 0; font-size: 0.95em; }
+.result-item pre { background-color: #eee; padding: 10px; border: 1px solid #ddd; white-space: pre-wrap; word-wrap: break-word; font-size: 0.9em; max-height: 250px; overflow-y: auto; cursor: pointer; margin-top: 10px; border-radius: 4px; }
+.result-item .ris-toggle { color: #007bff; cursor: pointer; text-decoration: underline; font-size: 0.9em; margin-top: 5px; display: inline-block; }
+.result-item pre.hidden { display: none; }
+.status { font-style: italic; font-weight: bold; display: block; margin-bottom: 10px; }
+.status.present { color: #388e3c; } /* Verde oscuro */
+.status.missing { color: #d32f2f; } /* Rojo oscuro */
+.status.borrowed { color: #e65100; font-weight: bold; } /* Naranja oscuro */
+.status.local-diff::after { content: " *"; color: red; font-weight: bold; font-size: 1.1em; cursor: help; } /* Indicador local */
+.status.local-diff[title]:hover::after { /* Tooltip para el indicador - Aún experimental en algunos navegadores */ content: attr(title); position: absolute; background: #333; color: white; padding: 5px; border-radius: 3px; font-size: 0.8em; z-index: 10; white-space: nowrap; margin-left: 5px; }
+
+
+/* Estilos Préstamo */
+.borrow-info { font-size: 0.9em; color: #666; margin-top: 8px; padding-left: 10px; border-left: 3px solid #ff9800; }
+.borrow-button, .return-button { background-color: #ff9800; /* Naranja */ color: white; font-size: 0.8em; padding: 3px 8px; margin-left: 10px; cursor: pointer; border: none; border-radius: 3px; vertical-align: middle; }
+.return-button { background-color: #4CAF50; } /* Verde */
+.borrow-button:hover { background-color: #e68a00; }
+.return-button:hover { background-color: #388e3c; }
+/* Enlace deshabilitado para libros prestados */
+.result-item.borrowed a[target="_blank"] { color: #999; text-decoration: line-through; pointer-events: none; cursor: not-allowed; }
+
+/* Estilos Modal */
+#borrow-modal { border: 1px solid #ccc; border-radius: 8px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); max-width: 500px; width: 90%; }
+#borrow-modal::backdrop { background: rgba(0, 0, 0, 0.5); }
+#borrow-modal h3 { margin-top: 0; color: #5c67f2;}
+#borrow-modal label { font-weight: bold; display: block; margin-bottom: 3px;}
+#borrow-modal input[type="text"],
+#borrow-modal input[type="tel"],
+#borrow-modal select { width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+#borrow-modal menu { padding: 0; margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
+#borrow-modal menu button { margin-left: 0; }
+#borrow-modal #confirm-borrow-button { background-color: #28a745; } /* Verde */
+#borrow-modal #confirm-borrow-button:hover { background-color: #218838; }
+#borrow-modal #cancel-borrow-button { background-color: #6c757d; } /* Gris */
+#borrow-modal #cancel-borrow-button:hover { background-color: #5a6268; }
+
+
+#loading-status, #sheet-status { display: inline-block; margin-left: 10px; font-style: italic; color: #666; }
